@@ -8,8 +8,6 @@ class Charge:
         Our charges will be on grid points. We'll set all constants to 1,
         and make our charges integer as well.
         """
-        if x < 0 or y < 0:
-            raise ValueError("x and y must be non-negative indices.")
         self.x = x
         self.y = y
         self.q = q
@@ -18,8 +16,10 @@ class Charge:
         """
         Calculate the potential at each point in the grid.
         """
-        if self.x >= x_grid.shape[0] or self.y >= y_grid.shape[1]:
-            raise ValueError("Charge is outside the grid.")
+        if x_grid.min() > self.x or x_grid.max() < self.x:
+            raise ValueError("Charge x-coordinate outside of grid.")
+        if y_grid.min() > self.y or y_grid.max() < self.y:
+            raise ValueError("Charge y-coordinate outside of grid.")
 
         # calculate the distance from the charge to each point in the grid
         dx = x_grid - self.x
