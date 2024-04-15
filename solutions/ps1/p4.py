@@ -5,16 +5,19 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     # Problem 2, dipole
 
-    x_grid, y_grid = np.meshgrid(np.arange(-25, 25), np.arange(-25, 25))
+    x_grid, y_grid = np.meshgrid(np.arange(-25, 26), np.arange(-25, 26))
     charges = [Charge(-7.5, 0, -1), Charge(7.5, 0, 1)]
     potentials = np.sum(
         [charge.potential(x_grid, y_grid) for charge in charges], axis=0)
     e_field = np.gradient(potentials)
-    angles = np.degrees(np.arctan2(e_field[1], e_field[0]))
-    plt.imshow(angles,
-               extent=(-25, 25, -25, 25),
-               cmap='twilight',
-               origin='lower')
+    # Note, numpy index ordering is (y,x), so to get angles that are consistent
+    # with usual conventions, we need to do the opposite of what may be natural
+    angles = np.degrees(np.arctan2(-e_field[0], -e_field[1]))
+    plt.imshow(
+        angles,
+        extent=(-25, 25, -25, 25),
+        cmap='twilight',
+    )
     plt.colorbar()
     plt.title("Electric field direction for a dipole")
     plt.show()
