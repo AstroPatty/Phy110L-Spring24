@@ -21,5 +21,11 @@ if __name__ == "__main__":
     plt.colorbar()
     plt.title("Electric field direction for a dipole")
     plt.show()
-    # Since we know the electric field goes like 1/r^3 for a dipole,
-    # we expect the potential to go like 1/r^2.
+    """
+    There are a few issues with using Coulomb's law directly to calculate the electric field. The most notable is that
+    we then have to track components of the electric field during computation, which adds complexity. There is a very
+    simple relationship between potential and electric field, and the potential is pretty cheap to calcualte.
+
+    The main issue with the potential -> electric field method if we care about the E field is we have to do a second 
+    calculation to get there, which leads to the possibility of numerical errors.
+    """

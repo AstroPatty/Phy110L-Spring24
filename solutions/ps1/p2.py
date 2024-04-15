@@ -18,6 +18,7 @@ if __name__ == "__main__":
                 colors='black',
                 linestyles='dotted',
                 extent=(-25, 25, -25, 25))
+
     plt.title("Potential of a dipole")
     plt.show()
     # Since we know the electric field goes like 1/r^3 for a dipole,
