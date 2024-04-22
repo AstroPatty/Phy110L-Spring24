@@ -18,7 +18,7 @@ if __name__ == "__main__":
         extent=(-25, 25, -25, 25),
         cmap='twilight',
     )
-    plt.colorbar()
+    plt.colorbar(label="Angle (degrees)")
     plt.title("Electric field direction for a dipole")
     plt.show()
     """
