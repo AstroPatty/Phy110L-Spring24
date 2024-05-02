@@ -32,7 +32,7 @@ if __name__ == "__main__":
     figure = plot_field_line(start,
                              end, [-25, 25], [-25, 25],
                              charges,
-                             step_size=0.1,
+                             step_size=0.01,
                              color="black")
     plt.title("Launched directly up from positive charge")
     plt.show()
