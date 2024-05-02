@@ -1,82 +1,86 @@
 from charge import Charge, plot_field_line
 import matplotlib.pyplot as plt
 """
-One cool thing we could do for this problem is put our lists of lines
-into some sort of text file, and then load them up. In this case,
-I just called the plot_field_line function a ton of times.
+There are a couple of ways to make this code look a little nice. One
+would be to put the list of lines we want to plot in a text file,
+then load them up.
+
+But for the purposes of this assignment I'll just make a long list
 """
-if __name__ == "__main__":
-    charges = [Charge(7.5, 0, 1), Charge(-7.5, 0, -1)]
-    y_extent = [-25, 25]
-    x_extent = [-25, 25]
-    plot_field_line((7.4, 0), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.5, 0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.5, -0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.45, 0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.45, -0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.55, 0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((7.55, -0.1), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plot_field_line((-7.55, 0.1), (7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    propogation_direction="a",
-                    color="black")
-    plot_field_line((-7.55, -0.1), (7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    propogation_direction="a",
-                    color="black")
-    plot_field_line((-7.55, 0.0), (7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    propogation_direction="a",
-                    color="black")
-    plot_field_line((7.55, 0.0), (-7.5, 0),
-                    x_extent,
-                    y_extent,
-                    charges,
-                    0.01,
-                    color="black")
-    plt.title("Some Electric Field Lines in a Dipole")
-    plt.show()
+
+charges = [Charge(7.5, 0, 1), Charge(-7.5, 0, -1)]
+y_extent = [-25, 25]
+x_extent = [-25, 25]
+plot_field_line((7.4, 0), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.5, 0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.5, -0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.45, 0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.45, -0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.55, 0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((7.55, -0.1), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plot_field_line((-7.55, 0.1), (7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                propogation_direction="a",
+                color="black")
+plot_field_line((-7.55, -0.1), (7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                propogation_direction="a",
+                color="black")
+plot_field_line((-7.55, 0.0), (7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                propogation_direction="a",
+                color="black")
+plot_field_line((7.55, 0.0), (-7.5, 0),
+                x_extent,
+                y_extent,
+                charges,
+                0.01,
+                color="black")
+plt.title("Some Electric Field Lines in a Dipole")
+plt.xlim(x_extent)
+plt.ylim(y_extent)
+plt.show()

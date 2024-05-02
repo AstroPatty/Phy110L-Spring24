@@ -33,8 +33,8 @@ class Charge:
 
     def e_field(self, x, y):
         """
-        Calculate the electric field at each point in the grid. Note
-        it will also work if you give a single point
+        Calculate the electric field at each point in the grid. This
+        function will work with a single point or grid of points.
         """
 
         # calculate the distance from the charge to each point in the grid
@@ -59,19 +59,22 @@ def plot_field_line(starting_point: tuple[float, float],
                     *args,
                     **kwargs):
     fig = plt.gcf()
+
+    # check if we're plotting with or against the electric field.
     if propogation_direction == "a":
         prop_coeff = -1
     else:
         prop_coeff = 1
 
     current_point = starting_point
-    while True:
+
+    while True:  # We will continue iterating until we hit one of our termination criteria
         dx, dy = 0, 0
         for charge in charges:
             ds = charge.e_field(*current_point)
             dx += ds[0]
             dy += ds[1]
-        # normalize to the step size
+        # normalize to chosen step size
         ds_norm = np.sqrt(step_size) / np.sqrt(dx**2 + dy**2)
         dx = dx * ds_norm * prop_coeff
         dy = dy * ds_norm * prop_coeff
@@ -84,25 +87,28 @@ def plot_field_line(starting_point: tuple[float, float],
                  *args,
                  **kwargs)
         if should_terminate(new_point, ending_point, charges, x_extent,
-                            y_extent, step_size):
+                            y_extent):
             break
         current_point = new_point
 
+    # Now plot the charges
     for charge in charges:
         if charge.q > 0:
             c = "red"
         else:
             c = "blue"
         plt.scatter(charge.x, charge.y, c=c, zorder=1)
-    plt.xlim(x_extent)
-    plt.ylim(y_extent)
 
     return fig
 
 
 def should_terminate(current_point, termination_point, charges, x_extent,
-                     y_extent, step_size):
-
+                     y_extent):
+    """
+    There are two reasons the line plotting should terminate.
+    1. We leave the bounds of the box provided by x_extent and y_extent
+    2. We get close to the termination point
+    """
     x, y = current_point
     x_term, y_term = termination_point
     if x < x_extent[0] or x > x_extent[1] or y < y_extent[0] or y > y_extent[1]:

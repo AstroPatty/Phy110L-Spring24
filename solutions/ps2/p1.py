@@ -41,6 +41,7 @@ if __name__ == "__main__":
 
     grads = gradient(potential)
     np_grads = np.gradient(potential)
+
     if np.all(grads[0] == np_grads[0]) and np.all(grads[1] == np_grads[1]):
         print("Success! My gradient is identical to numpy's")
     else:
