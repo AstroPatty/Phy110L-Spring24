@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Charge:
@@ -44,4 +45,69 @@ class Charge:
         # calculate the electric field at each point in the grid
         Ex = self.q * dx / r**3
         Ey = self.q * dy / r**3
+
         return Ex, Ey
+
+
+def plot_field_line(starting_point: tuple[float, float],
+                    ending_point: tuple[float, float],
+                    x_extent: float,
+                    y_extent: float,
+                    charges: list[Charge],
+                    step_size: float,
+                    propogation_direction: str = "w",
+                    *args,
+                    **kwargs):
+    fig = plt.gcf()
+    if propogation_direction == "a":
+        prop_coeff = -1
+    else:
+        prop_coeff = 1
+
+    current_point = starting_point
+    while True:
+        dx, dy = 0, 0
+        for charge in charges:
+            ds = charge.e_field(*current_point)
+            dx += ds[0]
+            dy += ds[1]
+        # normalize to the step size
+        ds_norm = np.sqrt(step_size) / np.sqrt(dx**2 + dy**2)
+        dx = dx * ds_norm * prop_coeff
+        dy = dy * ds_norm * prop_coeff
+
+        # compute the new point
+        new_point = (current_point[0] + dx, current_point[1] + dy)
+        plt.plot([current_point[0], new_point[0]],
+                 [current_point[1], new_point[1]],
+                 zorder=0,
+                 *args,
+                 **kwargs)
+        if should_terminate(new_point, ending_point, charges, x_extent,
+                            y_extent, step_size):
+            break
+        current_point = new_point
+
+    for charge in charges:
+        if charge.q > 0:
+            c = "red"
+        else:
+            c = "blue"
+        plt.scatter(charge.x, charge.y, c=c, zorder=1)
+    plt.xlim(x_extent)
+    plt.ylim(y_extent)
+
+    return fig
+
+
+def should_terminate(current_point, termination_point, charges, x_extent,
+                     y_extent, step_size):
+
+    x, y = current_point
+    x_term, y_term = termination_point
+    if x < x_extent[0] or x > x_extent[1] or y < y_extent[0] or y > y_extent[1]:
+        return True
+    distance = np.sqrt((x - x_term)**2 + (y - y_term)**2)
+    if distance < 0.1:
+        return True
+    return False

@@ -8,7 +8,10 @@ if __name__ == "__main__":
     charges = [Charge(7.5, 0, 1), Charge(-7.5, 0, -1)]
     potential = np.sum(c.potential(xgrid, ygrid) for c in charges)
 
+    # Approximate the e-field with the gradient
     approx_e = gradient(potential)
+
+    # Get the real e-field from coulomb's law
     real_ex = np.zeros_like(potential)
     real_ey = np.zeros_like(potential)
 
@@ -20,6 +23,7 @@ if __name__ == "__main__":
     grad_ex = -approx_e[1]
     grad_ey = -approx_e[0]
 
+    # Compute fractional errors
     err_ex = (real_ex - grad_ex) / real_ex
     err_ey = (real_ey - grad_ey) / real_ey
 
