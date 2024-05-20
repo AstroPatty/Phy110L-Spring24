@@ -13,18 +13,14 @@ class Charge:
         self.y = y
         self.q = q
 
-    def potential(self, x_grid: np.ndarray, y_grid: np.ndarray) -> np.ndarray:
+    def potential(self, x: np.ndarray, y: np.ndarray) -> np.ndarray:
         """
         Calculate the potential at each point in the grid.
         """
-        if x_grid.min() > self.x or x_grid.max() < self.x:
-            raise ValueError("Charge x-coordinate outside of grid.")
-        if y_grid.min() > self.y or y_grid.max() < self.y:
-            raise ValueError("Charge y-coordinate outside of grid.")
 
         # calculate the distance from the charge to each point in the grid
-        dx = x_grid - self.x
-        dy = y_grid - self.y
+        dx = x - self.x
+        dy = y - self.y
         r = np.sqrt(dx**2 + dy**2)
 
         # calculate the potential at each point in the grid
@@ -124,7 +120,6 @@ def plot_equipotential(starting_point: tuple,
                        max_steps: int = 1000,
                        *args,
                        **kwargs):
-    fig = plt.gcf()
     current_point = starting_point
     if method == "rk2":
         step_fn = step_rk2
@@ -133,7 +128,9 @@ def plot_equipotential(starting_point: tuple,
     else:
         raise ValueError(
             "The only allowed integration methods are `rk2` and `euler`")
-    for _ in range(max_steps):
+    left_region = False
+    tolerance = 0.2
+    for i in range(max_steps):
         new_point = step_fn(current_point,
                             charges,
                             step_size,
@@ -144,7 +141,9 @@ def plot_equipotential(starting_point: tuple,
         dist = np.sqrt((current_point[0] - new_point[0])**2 +
                        (current_point[1] - new_point[1])**2)
 
-        if dist < 0.5 * step_size:
+        if not left_region and dist > tolerance:
+            left_region = True
+        if left_region and dist < tolerance:
             break
         current_point = new_point
 
